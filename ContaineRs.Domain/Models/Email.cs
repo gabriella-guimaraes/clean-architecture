@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace ContainRs.WebApp.Models
+namespace ContaineRs.Domain.Models
 {
     public class Email
     {
