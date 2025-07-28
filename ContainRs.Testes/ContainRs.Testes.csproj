@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ContaineRs.Application\ContaineRs.Application.csproj" />
+    <ProjectReference Include="..\ContaineRs.Domain\ContaineRs.Domain.csproj" />
     <ProjectReference Include="..\ContainRs.WebApp\ContainRs.WebApp.csproj" />
   </ItemGroup>
 

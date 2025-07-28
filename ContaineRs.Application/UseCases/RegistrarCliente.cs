@@ -1,13 +1,13 @@
-﻿using ContainRs.WebApp.Data;
-using ContainRs.WebApp.Models;
+﻿using ContaineRs.Application.Repositories;
+using ContaineRs.Domain.Models;
 
-namespace ContainRs.WebApp.UseCases
+namespace ContainRs.Application.UseCases
 {
     public class RegistrarCliente
     {
-        private readonly AppDbContext context;
+        private readonly IClienteRepository repository;
 
-        public RegistrarCliente(string nome, Email email, string cPF, string? celular, string? cEP, string? rua, string? numero, string? complemento, string? bairro, string? municipio, string? estado, AppDbContext context)
+        public RegistrarCliente(string nome, Email email, string cPF, string? celular, string? cEP, string? rua, string? numero, string? complemento, string? bairro, string? municipio, string? estado, IClienteRepository repository)
         {
             Nome = nome;
             Email = email;
@@ -20,7 +20,7 @@ namespace ContainRs.WebApp.UseCases
             Bairro = bairro;
             Municipio = municipio;
             Estado = estado;
-            this.context = context;
+            this.repository = repository;
         }
 
         public string Nome { get; private set; }
@@ -49,8 +49,7 @@ namespace ContainRs.WebApp.UseCases
                 Municipio = Municipio,
                 Estado = Estado
             };
-            context.Clientes.Add(cliente);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(cliente);
 
             return cliente;
         }

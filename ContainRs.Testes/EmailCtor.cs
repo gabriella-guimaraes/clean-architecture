@@ -1,4 +1,4 @@
-using ContainRs.WebApp.Models;
+using ContaineRs.Domain.Models;
 
 namespace ContainRs.Testes
 {
