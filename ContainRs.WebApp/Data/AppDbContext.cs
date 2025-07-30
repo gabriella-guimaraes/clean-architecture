@@ -1,6 +1,8 @@
 ﻿using ContaineRs.Application.Repositories;
 using ContaineRs.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ContainRs.WebApp.Data;
 
@@ -19,6 +21,20 @@ public class AppDbContext : DbContext, IClienteRepository
         return cliente;
     }
 
+    public async Task<IEnumerable<Cliente>> GetAsync(Expression<Func<Cliente, bool>>? filtro = null)
+    {
+        IQueryable<Cliente> queryClientes = this.Clientes;
+
+        if (filtro != null)
+        {
+            queryClientes = queryClientes.Where(filtro);
+        }
+
+        return await queryClientes
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -28,6 +44,7 @@ public class AppDbContext : DbContext, IClienteRepository
 
         modelBuilder.Entity<Cliente>()
             .Property(c => c.Nome).IsRequired();
+
         modelBuilder.Entity<Cliente>()
             .OwnsOne(c => c.Email, cfg =>
             {
@@ -36,6 +53,11 @@ public class AppDbContext : DbContext, IClienteRepository
                     .HasMaxLength(256)
                     .IsRequired();
             });
+
+        modelBuilder.Entity<Cliente>()
+            .Property(c => c.Estado)
+            .HasConversion<string>();
+
         modelBuilder.Entity<Cliente>()
             .Property(c => c.CPF).IsRequired();
     }

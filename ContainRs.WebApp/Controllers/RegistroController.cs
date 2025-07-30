@@ -46,7 +46,7 @@ public class RegistroController : Controller
             form.Complemento,
             form.Bairro,
             form.Municipio,
-            form.Estado,
+            UfStringConverter.From(form.Estado),
             context
         );
 
